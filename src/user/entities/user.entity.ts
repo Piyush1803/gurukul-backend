@@ -1,11 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Cart } from "src/cart/entities/cart.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ name: 'first_name',type: 'varchar', length: 255, nullable: false })
+    @Column({ name: 'first_name', type: 'varchar', length: 255, nullable: false })
     firstName: string;
 
     @Column({ name: 'last_name', type: 'text', nullable: true })
@@ -17,15 +18,18 @@ export class User {
     @Column({ name: 'password', type: 'text', nullable: true })
     password: string;
 
-    @Column({ name: 'role',type: 'varchar', length: 255, nullable: false, default: 'user'})
+    @Column({ name: 'role', type: 'varchar', length: 255, nullable: false, default: 'user' })
     role: string;
 
     @Column({ name: 'email', type: 'varchar', length: 255, nullable: false })
     email: string;
 
-    @Column({ name: 'phone_number',type: 'varchar', length: 255, nullable: false })
+    @Column({ name: 'phone_number', type: 'varchar', length: 255, nullable: false })
     phoneNumber: string;
 
-    @Column({ name: 'address',type: 'varchar', length: 255, nullable: false })
+    @Column({ name: 'address', type: 'varchar', length: 255, nullable: false })
     address: string;
+
+    @OneToMany(() => Cart, (cart) => cart.user)
+    cartItems: Cart[];
 }
