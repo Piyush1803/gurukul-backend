@@ -4,14 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { RoleModule } from './role/role.module';
-import { ProductModule } from './product/product.module';
-import { CategoryModule } from './category/category.module';
-import { CartModule } from './cart/cart.module';
-import { CartItemModule } from './cart-item/cart-item.module';
-import { PaymentModule } from './payment/payment.module';
-import { OrderItemModule } from './order-item/order-item.module';
-import { OrderModule } from './order/order.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -28,15 +20,7 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
     }),
     UserModule,
-    ProductModule,
-    CategoryModule,
-    CartModule,
-    CartItemModule,
-    PaymentModule,
-    OrderItemModule,
-    OrderModule,
-    RoleModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
