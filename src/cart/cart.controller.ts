@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, UseGuards, Req } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { AuthGuard } from '@nestjs/passport';
+
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('cart')
@@ -11,14 +12,19 @@ export class CartController {
 
   constructor(private readonly cartService: CartService) { }
 
-  @Post()
-  addToCart(@Body() body: { userId: string; productId: number; quantity: number; },
+  @Post('/addToCart')
+  addToCart(@Body() body: { productId: number; quantity: number; },
+  @Req() req:any
   ) {
-    return this.cartService.addToCart(body.userId, body.productId, body.quantity);
+    const user = req.user as any;
+    const userId = user.id;
+    console.log('User from JWT:', user);
+    return this.cartService.addToCart(userId, body.productId, body.quantity);
   }
 
   @Get(':userId')
   getCartItems(@Param('userId') userId: string) {
+    console.log("Controller called for user:", userId);
     return this.cartService.getUserCart(userId);
   }
 
