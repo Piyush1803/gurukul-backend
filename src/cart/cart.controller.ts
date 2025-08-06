@@ -14,17 +14,17 @@ export class CartController {
 
   @Post('/addToCart')
   addToCart(@Body() body: { productId: number; quantity: number; },
-  @Req() req:any
+    @Req() req: any
   ) {
     const user = req.user as any;
     const userId = user.id;
-    console.log('User from JWT:', user);
+    // console.log('User from JWT:', user);
     return this.cartService.addToCart(userId, body.productId, body.quantity);
   }
 
-  @Get(':userId')
+  @Get('userCart/:userId')
   getCartItems(@Param('userId') userId: string) {
-    console.log("Controller called for user:", userId);
+    // console.log("Controller called for user:", userId);
     return this.cartService.getUserCart(userId);
   }
 
