@@ -13,18 +13,23 @@ export class CartController {
   constructor(private readonly cartService: CartService) { }
 
   @Post('/addToCart')
-  addToCart(@Body() body: { productId: number; quantity: number; },
+  addToCart(
+    @Body() body: { productId: number; quantity: number },
     @Req() req: any
   ) {
     const user = req.user as any;
-    const userId = user.id;
-    // console.log('User from JWT:', user);
+    const userId = user.sub ?? user.userId ?? user.id;
+    console.log('Incoming user ID from token', userId);
     return this.cartService.addToCart(userId, body.productId, body.quantity);
   }
 
-  @Get('userCart/:userId')
-  getCartItems(@Param('userId') userId: string) {
-    // console.log("Controller called for user:", userId);
+   
+  @Get('userCart')
+  @UseGuards(AuthGuard('jwt'))
+  getUserCart(@Req() req: any) {
+  const user = req.user as any;
+  const userId = user.sub ?? user.userId ?? user.id;
+    console.log("userCart called for userId:", userId);
     return this.cartService.getUserCart(userId);
   }
 
