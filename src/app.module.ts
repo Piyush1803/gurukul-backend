@@ -14,6 +14,7 @@ import { Cake } from './product/entities/cake.entity';
 import { Pudding } from './product/entities/pudding.entity';
 import { Pastry } from './product/entities/pastry.entity';
 import { Donut } from './product/entities/donut.entity';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { Donut } from './product/entities/donut.entity';
     AuthModule,
     ProductModule,
     CartModule,
+    CheckoutModule,
   ],
   controllers: [AppController],
   providers: [AppService],
