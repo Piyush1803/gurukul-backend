@@ -29,7 +29,7 @@ export class ProductService {
         return this.donutRepo.save(this.donutRepo.create(dto as CreateDonutDto));
       case 'pastry':
         return this.pastryRepo.save(this.pastryRepo.create(dto as CreatePastryDto));
-      case 'pudding':
+      case 'cupcake':
         return this.puddingRepo.save(this.puddingRepo.create(dto as CreatePuddingDto));
       default:
         throw new BadRequestException('Invalid product type');
