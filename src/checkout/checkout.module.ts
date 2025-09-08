@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CheckoutService } from './checkout.service';
 import { CheckoutController } from './checkout.controller';
-import { HttpModule } from '@nestjs/axios';
+import { Cart } from '../cart/entities/cart.entity';
+import { User } from '../user/entities/user.entity';
 
 @Module({
-    imports: [HttpModule],
+    imports: [TypeOrmModule.forFeature([Cart, User])],
     controllers: [CheckoutController],
     providers: [CheckoutService],
+    exports: [CheckoutService],
 })
 export class CheckoutModule { }
 

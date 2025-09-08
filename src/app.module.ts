@@ -28,7 +28,7 @@ import { CheckoutModule } from './checkout/checkout.module';
       database: process.env.MYSQL_DATABASE,
       entities: [User, Product, Cart, Cake, Donut, Pastry, Pudding],
       synchronize: false,
-      autoLoadEntities: true,
+      autoLoadEntities: false,
     }),
     UserModule,
     AuthModule,
