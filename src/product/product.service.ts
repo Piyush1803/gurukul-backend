@@ -36,7 +36,7 @@ export class ProductService {
     }
   }
 
-  async findAll(type: string) {
+  async findAllByType(type: string) {
     switch (type) {
       case 'cake':
         return this.cakeRepo.find();
@@ -124,4 +124,20 @@ export class ProductService {
         throw new BadRequestException('Invalid product type');
     }
   }
+
+  async findAll() {
+    const [cakes, donuts, pastries, puddings] = await Promise.all([
+      this.cakeRepo.find(),
+      this.donutRepo.find(),
+      this.pastryRepo.find(),
+      this.puddingRepo.find(),
+    ]);
+    return {
+      cakes,
+      donuts,
+      pastries,
+      puddings,
+    };
+  }
+
 }

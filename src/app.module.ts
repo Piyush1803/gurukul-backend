@@ -14,6 +14,7 @@ import { Cake } from './product/entities/cake.entity';
 import { Pudding } from './product/entities/pudding.entity';
 import { Pastry } from './product/entities/pastry.entity';
 import { Donut } from './product/entities/donut.entity';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
   imports: [
@@ -26,16 +27,16 @@ import { Donut } from './product/entities/donut.entity';
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
       entities: [User, Product, Cart, Cake, Donut, Pastry, Pudding],
-      synchronize: true,  
-      dropSchema: true,
+      synchronize: false,
       autoLoadEntities: true,
     }),
     UserModule,
     AuthModule,
     ProductModule,
     CartModule,
+    CheckoutModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

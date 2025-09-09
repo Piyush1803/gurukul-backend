@@ -33,10 +33,10 @@ export class ProductController {
     }
   }
 
-  @Get(':type')
-  async findAll(@Param('type') type: string) {
+  @Get('/all/:type')
+  async findAllByType(@Param('type') type: string) {
     try {
-      const data = await this.productService.findAll(type);
+      const data = await this.productService.findAllByType(type);
       return { message: 'Products fetched successfully', data };
     } catch (error) {
       return { message: 'Error fetching products', error: error.message };
@@ -86,6 +86,16 @@ export class ProductController {
       return { message: 'Product deleted successfully', data };
     } catch (error) {
       return { message: 'Error deleting product', error: error.message };
+    }
+  }
+
+  @Get("/all")
+  async findAllProducts() {
+    try {
+      const data = await this.productService.findAll();
+      return { message: 'All products fetched successfully', data };
+    } catch (error) {
+      return { message: 'Error fetching products', error: error.message };
     }
   }
 }
