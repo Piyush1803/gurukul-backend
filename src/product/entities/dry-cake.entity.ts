@@ -1,8 +1,8 @@
 import { ChildEntity, Column } from 'typeorm';
 import { Product } from './product.entity';
 
-@ChildEntity('donut')
-export class Donut extends Product {
+@ChildEntity('dry-cake')
+export class DryCake extends Product {
     @Column()
     name: string;
 
@@ -13,11 +13,11 @@ export class Donut extends Product {
     flavor: string;
 
     @Column()
-    glazeType: string; // chocolate, vanilla, strawberry, plain
+    shelfLife: number; // in days
 
     @Column()
-    hasFilling: boolean;
+    packaging: string; // box, wrapper, etc.
 
-    @Column({ nullable: true })
-    fillingType: string;
+    @Column()
+    weight: number; // in grams
 }
