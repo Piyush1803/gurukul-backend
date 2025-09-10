@@ -1,7 +1,23 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { CreateCakeDto, CreateDonutDto, CreatePastryDto, CreatePuddingDto } from './dto/create-product.dto';
-import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto, UpdatePuddingDto } from './dto/update-product.dto';
+import { 
+  CreateDeliciousCakeDto, 
+  CreateBrownieDto, 
+  CreateDryCakeDto, 
+  CreateCupCakeDto, 
+  CreateCookieDto, 
+  CreateDonutDto, 
+  CreateMousseDto 
+} from './dto/create-product.dto';
+import { 
+  UpdateDeliciousCakeDto, 
+  UpdateBrownieDto, 
+  UpdateDryCakeDto, 
+  UpdateCupCakeDto, 
+  UpdateCookieDto, 
+  UpdateDonutDto, 
+  UpdateMousseDto 
+} from './dto/update-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -12,20 +28,29 @@ export class ProductController {
     try {
       let data;
       switch (type) {
-        case 'cake':
-          data = await this.productService.create(type, dto as CreateCakeDto);
+        case 'delicious-cake':
+          data = await this.productService.create(type, dto as CreateDeliciousCakeDto);
+          break;
+        case 'brownie':
+          data = await this.productService.create(type, dto as CreateBrownieDto);
+          break;
+        case 'dry-cake':
+          data = await this.productService.create(type, dto as CreateDryCakeDto);
+          break;
+        case 'cup-cake':
+          data = await this.productService.create(type, dto as CreateCupCakeDto);
+          break;
+        case 'cookie':
+          data = await this.productService.create(type, dto as CreateCookieDto);
           break;
         case 'donut':
           data = await this.productService.create(type, dto as CreateDonutDto);
           break;
-        case 'pastry':
-          data = await this.productService.create(type, dto as CreatePastryDto);
-          break;
-        case 'pudding':
-          data = await this.productService.create(type, dto as CreatePuddingDto);
+        case 'mousse':
+          data = await this.productService.create(type, dto as CreateMousseDto);
           break;
         default:
-          throw new BadRequestException('Invalid product type');
+          throw new BadRequestException('Invalid product type. Valid types: delicious-cake, brownie, dry-cake, cup-cake, cookie, donut, mousse');
       }
       return { message: 'Product created successfully', data };
     } catch (error) {
@@ -44,7 +69,7 @@ export class ProductController {
   }
 
   @Get(':type/:id')
-  async findOne(@Param('type') type: string, @Param('id') id: number) {
+  async findOne(@Param('type') type: string, @Param('id') id: string) {
     try {
       const data = await this.productService.findOne(type, id);
       return { message: 'Product fetched successfully', data };
@@ -54,24 +79,33 @@ export class ProductController {
   }
 
   @Patch(':type/:id')
-  async update(@Param('type') type: string, @Param('id') id: number, @Body() dto: any) {
+  async update(@Param('type') type: string, @Param('id') id: string, @Body() dto: any) {
     try {
       let data;
       switch (type) {
-        case 'cake':
-          data = await this.productService.update(type, id, dto as UpdateCakeDto);
+        case 'delicious-cake':
+          data = await this.productService.update(type, id, dto as UpdateDeliciousCakeDto);
+          break;
+        case 'brownie':
+          data = await this.productService.update(type, id, dto as UpdateBrownieDto);
+          break;
+        case 'dry-cake':
+          data = await this.productService.update(type, id, dto as UpdateDryCakeDto);
+          break;
+        case 'cup-cake':
+          data = await this.productService.update(type, id, dto as UpdateCupCakeDto);
+          break;
+        case 'cookie':
+          data = await this.productService.update(type, id, dto as UpdateCookieDto);
           break;
         case 'donut':
           data = await this.productService.update(type, id, dto as UpdateDonutDto);
           break;
-        case 'pastry':
-          data = await this.productService.update(type, id, dto as UpdatePastryDto);
-          break;
-        case 'pudding':
-          data = await this.productService.update(type, id, dto as UpdatePuddingDto);
+        case 'mousse':
+          data = await this.productService.update(type, id, dto as UpdateMousseDto);
           break;
         default:
-          throw new BadRequestException('Invalid product type');
+          throw new BadRequestException('Invalid product type. Valid types: delicious-cake, brownie, dry-cake, cup-cake, cookie, donut, mousse');
       }
       return { message: 'Product updated successfully', data };
     } catch (error) {
@@ -80,7 +114,7 @@ export class ProductController {
   }
 
   @Delete(':type/:id')
-  async remove(@Param('type') type: string, @Param('id') id: number) {
+  async remove(@Param('type') type: string, @Param('id') id: string) {
     try {
       const data = await this.productService.remove(type, id);
       return { message: 'Product deleted successfully', data };

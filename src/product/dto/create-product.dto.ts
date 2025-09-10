@@ -1,6 +1,6 @@
-import { IsString, IsOptional, IsInt, Min } from 'class-validator';
+import { IsString, IsOptional, IsInt, Min, IsBoolean, IsNumber } from 'class-validator';
 
-export class CreateCakeDto {
+export class CreateDeliciousCakeDto {
     @IsString()
     name: string;
 
@@ -10,16 +10,134 @@ export class CreateCakeDto {
     @IsString()
     flavor: string;
 
-    @IsInt()
+    @IsNumber()
     @Min(0)
-    quantity: number;
+    price: number;
+
+    @IsInt()
+    @Min(1)
+    layers: number;
 
     @IsString()
-    imageUrl: string;
+    size: string;
+
+    @IsNumber()
+    @Min(0)
+    weight: number;
+
+    @IsOptional()
+    image?: Buffer;
+}
+
+export class CreateBrownieDto {
+    @IsString()
+    name: string;
+
+    @IsString()
+    description: string;
+
+    @IsString()
+    flavor: string;
+
+    @IsNumber()
+    @Min(0)
+    price: number;
+
+    @IsString()
+    texture: string;
+
+    @IsBoolean()
+    hasNuts: boolean;
+
+    @IsString()
+    size: string;
+
+    @IsOptional()
+    image?: Buffer;
+}
+
+export class CreateDryCakeDto {
+    @IsString()
+    name: string;
+
+    @IsString()
+    description: string;
+
+    @IsString()
+    flavor: string;
+
+    @IsNumber()
+    @Min(0)
+    price: number;
 
     @IsInt()
+    @Min(1)
+    shelfLife: number;
+
+    @IsString()
+    packaging: string;
+
+    @IsNumber()
+    @Min(0)
+    weight: number;
+
     @IsOptional()
-    layers?: number;
+    image?: Buffer;
+}
+
+export class CreateCupCakeDto {
+    @IsString()
+    name: string;
+
+    @IsString()
+    description: string;
+
+    @IsString()
+    flavor: string;
+
+    @IsNumber()
+    @Min(0)
+    price: number;
+
+    @IsString()
+    frostingType: string;
+
+    @IsBoolean()
+    hasToppings: boolean;
+
+    @IsString()
+    size: string;
+
+    @IsOptional()
+    image?: Buffer;
+}
+
+export class CreateCookieDto {
+    @IsString()
+    name: string;
+
+    @IsString()
+    description: string;
+
+    @IsString()
+    flavor: string;
+
+    @IsNumber()
+    @Min(0)
+    price: number;
+
+    @IsString()
+    texture: string;
+
+    @IsBoolean()
+    hasChocolateChips: boolean;
+
+    @IsNumber()
+    @Min(0)
+    diameter: number;
+
+    @IsOptional()
+    image?: Buffer;
 }
 
 export class CreateDonutDto {
@@ -32,19 +150,25 @@ export class CreateDonutDto {
     @IsString()
     flavor: string;
 
-    @IsInt()
+    @IsNumber()
     @Min(0)
-    quantity: number;
+    price: number;
 
     @IsString()
-    imageUrl: string;
+    glazeType: string;
+
+    @IsBoolean()
+    hasFilling: boolean;
 
     @IsString()
     @IsOptional()
-    filling?: string;
+    fillingType?: string;
+
+    @IsOptional()
+    image?: Buffer;
 }
 
-export class CreatePastryDto {
+export class CreateMousseDto {
     @IsString()
     name: string;
 
@@ -54,28 +178,19 @@ export class CreatePastryDto {
     @IsString()
     flavor: string;
 
-    @IsInt()
+    @IsNumber()
     @Min(0)
-    quantity: number;
+    price: number;
 
     @IsString()
-    imageUrl: string;
-}
+    servingSize: string;
 
-export class CreatePuddingDto {
-    @IsString()
-    name: string;
+    @IsBoolean()
+    hasLayers: boolean;
 
     @IsString()
-    description: string;
+    temperature: string;
 
-    @IsString()
-    flavor: string;
-
-    @IsInt()
-    @Min(0)
-    quantity: number;
-
-    @IsString()
-    imageUrl: string;
+    @IsOptional()
+    image?: Buffer;
 }
