@@ -9,7 +9,7 @@ export class CheckoutController {
     @UseGuards(AuthGuard('jwt'))
     @Post('initiate-payment')
     async initiatePayment(
-        @Body() body: { deliveryAddress: string; phoneNo: string },
+        @Body() body: { deliveryAddress: string; phoneNo: string, cartItems: any[]; totalAmount: number; },
         @Req() req: any
     ) {
         try {
@@ -19,7 +19,9 @@ export class CheckoutController {
             const result = await this.checkoutService.initiatePayment(
                 userId,
                 body.deliveryAddress,
-                body.phoneNo
+                body.phoneNo,
+                body.cartItems,
+                body.totalAmount
             );
 
             return {
@@ -55,25 +57,5 @@ export class CheckoutController {
         }
     }
 
-    @UseGuards(AuthGuard('jwt'))
-    @Post('clear-cart')
-    async clearCart(@Req() req: any) {
-        try {
-            const user = req.user as any;
-            const userId = user.sub ?? user.userId ?? user.id;
-
-            const result = await this.checkoutService.clearUserCart(userId);
-
-            return {
-                message: result.message,
-                success: result.success
-            };
-        } catch (error) {
-            return {
-                message: 'Error clearing cart',
-                error: error.message,
-                success: false
-            };
-        }
-    }
+    // clear-cart endpoint retained but disabled since cart backend was removed
 }

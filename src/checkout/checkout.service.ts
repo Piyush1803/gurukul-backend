@@ -1,7 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Cart } from '../cart/entities/cart.entity';
 import { User } from '../user/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
@@ -29,8 +28,6 @@ export class CheckoutService {
     private readonly pendingPayments = new Map<string, PendingPaymentContext>();
 
     constructor(
-        @InjectRepository(Cart)
-        private cartRepo: Repository<Cart>,
         @InjectRepository(User)
         private userRepo: Repository<User>,
     ) {
@@ -45,13 +42,8 @@ export class CheckoutService {
             : 'https://api-preprod.phonepe.com/apis/hermes';
     }
 
-    async initiatePayment(userId: string, deliveryAddress: string, phoneNo: string) {
+    async initiatePayment(userId: string, deliveryAddress: string, phoneNo: string, cartItems: any[], totalAmount: number) {
         try {
-            const cartItems = await this.cartRepo.find({
-                where: { user: { id: userId } },
-                relations: ['product'],
-            });
-
             if (!cartItems || cartItems.length === 0) {
                 throw new BadRequestException('Cart is empty');
             }
@@ -78,7 +70,8 @@ export class CheckoutService {
             const deliveryFee = 20;
             const finalAmount = totalAmount + deliveryFee;
 
-            const transactionId = `TXN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            // const muid = `MUIDGBCHD${Date.now()}`;
+            const transactionId = `TXNID${Date.now()}`;
 
             const paymentRequest = {
                 merchantId: this.merchantId,
@@ -174,8 +167,7 @@ export class CheckoutService {
                 address: ctx.deliveryAddress,
             });
 
-            // Clear user's cart
-            await this.clearUserCart(ctx.userId);
+            // Cart backend removed: no-op clear
 
             // Cleanup
             this.pendingPayments.delete(merchantTransactionId);
@@ -239,12 +231,8 @@ export class CheckoutService {
         };
     }
 
+    // Cart backend removed: method retained for controller compatibility but as a no-op
     async clearUserCart(userId: string) {
-        try {
-            await this.cartRepo.delete({ user: { id: userId } });
-            return { success: true, message: 'Cart cleared successfully' };
-        } catch (error: any) {
-            throw new Error(`Failed to clear cart: ${error.message}`);
-        }
+        return { success: true, message: 'Cart cleared successfully (no-op)' };
     }
 }

@@ -1,5 +1,4 @@
-import { Cart } from "src/cart/entities/cart.entity";
-import { Column, Double, Entity, OneToMany, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
+import { Column, Double, Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 
 @Entity('products')
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
@@ -12,7 +11,4 @@ export class Product {
 
     @Column()
     price: number;
-
-    @OneToMany(() => Cart, (cart) => cart.product)
-    cartItems: Cart[];
 }
