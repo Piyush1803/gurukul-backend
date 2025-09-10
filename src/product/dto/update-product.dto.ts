@@ -1,7 +1,18 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateCakeDto, CreateDonutDto, CreatePastryDto, CreatePuddingDto } from './create-product.dto';
+import { 
+    CreateDeliciousCakeDto, 
+    CreateBrownieDto, 
+    CreateDryCakeDto, 
+    CreateCupCakeDto, 
+    CreateCookieDto, 
+    CreateDonutDto, 
+    CreateMousseDto 
+} from './create-product.dto';
 
-export class UpdateCakeDto extends PartialType(CreateCakeDto) { }
+export class UpdateDeliciousCakeDto extends PartialType(CreateDeliciousCakeDto) { }
+export class UpdateBrownieDto extends PartialType(CreateBrownieDto) { }
+export class UpdateDryCakeDto extends PartialType(CreateDryCakeDto) { }
+export class UpdateCupCakeDto extends PartialType(CreateCupCakeDto) { }
+export class UpdateCookieDto extends PartialType(CreateCookieDto) { }
 export class UpdateDonutDto extends PartialType(CreateDonutDto) { }
-export class UpdatePastryDto extends PartialType(CreatePastryDto) { }
-export class UpdatePuddingDto extends PartialType(CreatePuddingDto) { }
+export class UpdateMousseDto extends PartialType(CreateMousseDto) { }

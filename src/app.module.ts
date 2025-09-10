@@ -8,9 +8,6 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { User } from './user/entities/user.entity';
 import { Product } from './product/entities/product.entity';
-import { Cake } from './product/entities/cake.entity';
-import { Pudding } from './product/entities/pudding.entity';
-import { Pastry } from './product/entities/pastry.entity';
 import { Donut } from './product/entities/donut.entity';
 import { CheckoutModule } from './checkout/checkout.module';
 
@@ -24,7 +21,7 @@ import { CheckoutModule } from './checkout/checkout.module';
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [User, Product, Cake, Donut, Pastry, Pudding],
+      entities: [User, Product, Donut],
       synchronize: false,
       autoLoadEntities: false,
     }),
