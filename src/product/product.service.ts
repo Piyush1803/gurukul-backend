@@ -1,24 +1,13 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Cake } from './entities/cake.entity';
-import { Donut } from './entities/donut.entity';
-import { Pastry } from './entities/pastry.entity';
-import { Pudding } from './entities/pudding.entity';
 import { CreateCakeDto, CreateDonutDto, CreatePastryDto, CreatePuddingDto } from './dto/create-product.dto';
 import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto, UpdatePuddingDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(Cake)
-    private readonly cakeRepo: Repository<Cake>,
-    @InjectRepository(Donut)
-    private readonly donutRepo: Repository<Donut>,
-    @InjectRepository(Pastry)
-    private readonly pastryRepo: Repository<Pastry>,
-    @InjectRepository(Pudding)
-    private readonly puddingRepo: Repository<Pudding>,
+
   ) { }
 
   async create(type: string, dto: any) {

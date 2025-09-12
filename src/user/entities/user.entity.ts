@@ -1,4 +1,3 @@
-import { Cart } from "src/cart/entities/cart.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
@@ -30,6 +29,4 @@ export class User {
     @Column({ name: 'address', type: 'varchar', length: 255, nullable: false })
     address: string;
 
-    @OneToMany(() => Cart, (cart) => cart.user)
-    cartItems: Cart[];
 }

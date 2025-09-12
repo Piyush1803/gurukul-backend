@@ -6,15 +6,16 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
-import { CartModule } from './cart/cart.module';
 import { User } from './user/entities/user.entity';
 import { Product } from './product/entities/product.entity';
-import { Cart } from './cart/entities/cart.entity';
-import { Cake } from './product/entities/cake.entity';
-import { Pudding } from './product/entities/pudding.entity';
-import { Pastry } from './product/entities/pastry.entity';
 import { Donut } from './product/entities/donut.entity';
 import { CheckoutModule } from './checkout/checkout.module';
+import { dryCake } from './product/entities/dryCake.entity';
+import { brownie } from './product/entities/brownie.entity';
+import { mousse } from './product/entities/mousse.entity';
+import { cupCake } from './product/entities/cupCake.entity';
+import { cookie } from './product/entities/cookie.entity';
+import { deliciousCake } from './product/entities/deliciousCake.entity';
 
 @Module({
   imports: [
@@ -26,14 +27,13 @@ import { CheckoutModule } from './checkout/checkout.module';
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [User, Product, Cart, Cake, Donut, Pastry, Pudding],
+      entities: [User, Product, Donut, dryCake, brownie, mousse, cupCake, cookie, deliciousCake],
       synchronize: false,
       autoLoadEntities: true,
     }),
     UserModule,
     AuthModule,
     ProductModule,
-    CartModule,
     CheckoutModule,
   ],
   controllers: [AppController],
