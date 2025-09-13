@@ -5,3 +5,4 @@ import { Product } from './product.entity';
 export class Pastry extends Product {
 
 }
+
