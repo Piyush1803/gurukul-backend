@@ -5,6 +5,6 @@ import { Product } from './product.entity';
 export class deliciousCake extends Product {
 
     @Column()
-    wieght: number;
+    weight: number;
 
 }

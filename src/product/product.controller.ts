@@ -12,7 +12,9 @@ export class ProductController {
     try {
       let data;
       switch (type) {
-        case 'cake':
+        case 'deliciousCake':
+        case 'dryCake':
+        case 'cupCake':
           data = await this.productService.create(type, dto as CreateCakeDto);
           break;
         case 'donut':
@@ -44,7 +46,7 @@ export class ProductController {
   }
 
   @Get(':type/:id')
-  async findOne(@Param('type') type: string, @Param('id') id: number) {
+  async findOne(@Param('type') type: string, @Param('id') id: string) {
     try {
       const data = await this.productService.findOne(type, id);
       return { message: 'Product fetched successfully', data };
@@ -54,11 +56,13 @@ export class ProductController {
   }
 
   @Patch(':type/:id')
-  async update(@Param('type') type: string, @Param('id') id: number, @Body() dto: any) {
+  async update(@Param('type') type: string, @Param('id') id: string, @Body() dto: any) {
     try {
       let data;
       switch (type) {
-        case 'cake':
+        case 'deliciousCake':
+        case 'dryCake':
+        case 'cupCake':
           data = await this.productService.update(type, id, dto as UpdateCakeDto);
           break;
         case 'donut':
@@ -80,7 +84,7 @@ export class ProductController {
   }
 
   @Delete(':type/:id')
-  async remove(@Param('type') type: string, @Param('id') id: number) {
+  async remove(@Param('type') type: string, @Param('id') id: string) {
     try {
       const data = await this.productService.remove(type, id);
       return { message: 'Product deleted successfully', data };
