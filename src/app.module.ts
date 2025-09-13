@@ -16,6 +16,7 @@ import { mousse } from './product/entities/mousse.entity';
 import { cupCake } from './product/entities/cupCake.entity';
 import { cookie } from './product/entities/cookie.entity';
 import { deliciousCake } from './product/entities/deliciousCake.entity';
+import { Otp } from './auth/entities/otp.entity';
 
 @Module({
   imports: [
@@ -27,8 +28,8 @@ import { deliciousCake } from './product/entities/deliciousCake.entity';
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [User, Product, Donut, dryCake, brownie, mousse, cupCake, cookie, deliciousCake],
-      synchronize: false,
+      entities: [User, Product, Donut, dryCake, brownie, mousse, cupCake, cookie, deliciousCake, Otp],
+      synchronize: true,
       autoLoadEntities: true,
     }),
     UserModule,

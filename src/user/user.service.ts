@@ -64,4 +64,28 @@ export class UserService {
     ],
   });
 }
+
+  async findByPhoneNumber(phoneNumber: string) {
+    return this.userRepository.findOne({
+      where: { phoneNumber },
+    });
+  }
+
+  async createOrUpdateByPhone(phoneNumber: string, userData: Partial<User>) {
+    let user = await this.findByPhoneNumber(phoneNumber);
+    
+    if (user) {
+      // Update existing user
+      Object.assign(user, userData);
+      return this.userRepository.save(user);
+    } else {
+      // Create new user
+      const newUser = this.userRepository.create({
+        phoneNumber,
+        ...userData,
+        role: 'user', // Default role
+      });
+      return this.userRepository.save(newUser);
+    }
+  }
 }
