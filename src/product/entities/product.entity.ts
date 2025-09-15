@@ -1,11 +1,13 @@
-import { Cart } from "src/cart/entities/cart.entity";
-import { Column, Double, Entity, OneToMany, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 
 @Entity('products')
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class Product {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
+
+    @Column()
+    name: string;
 
     @Column()
     type: string;
@@ -13,6 +15,10 @@ export class Product {
     @Column()
     price: number;
 
-    @OneToMany(() => Cart, (cart) => cart.product)
-    cartItems: Cart[];
+    @Column({ type: 'longblob', nullable: true })  // MySQL
+    image: Buffer;
+
+    @Column()
+    description: string;
+
 }
