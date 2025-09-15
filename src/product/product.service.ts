@@ -1,19 +1,43 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Product } from './entities/product.entity';
+import { Donut } from './entities/donut.entity';
+import { deliciousCake } from './entities/deliciousCake.entity';
+import { dryCake } from './entities/dryCake.entity';
+import { cupCake } from './entities/cupCake.entity';
+import { Pastry } from './entities/pastry.entity';
+import { Pudding } from './entities/pudding.entity';
 import { CreateCakeDto, CreateDonutDto, CreatePastryDto, CreatePuddingDto } from './dto/create-product.dto';
 import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto, UpdatePuddingDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
   constructor(
-
+    @InjectRepository(Product)
+    private productRepo: Repository<Product>,
+    @InjectRepository(Donut)
+    private donutRepo: Repository<Donut>,
+    @InjectRepository(deliciousCake)
+    private deliciousCakeRepo: Repository<deliciousCake>,
+    @InjectRepository(dryCake)
+    private dryCakeRepo: Repository<dryCake>,
+    @InjectRepository(cupCake)
+    private cupCakeRepo: Repository<cupCake>,
+    @InjectRepository(Pastry)
+    private pastryRepo: Repository<Pastry>,
+    @InjectRepository(Pudding)
+    private puddingRepo: Repository<Pudding>,
   ) { }
 
   async create(type: string, dto: any) {
     switch (type) {
-      case 'cake':
-        return this.cakeRepo.save(this.cakeRepo.create(dto as CreateCakeDto));
+      case 'deliciousCake':
+        return this.deliciousCakeRepo.save(this.deliciousCakeRepo.create(dto as CreateCakeDto));
+      case 'dryCake':
+        return this.dryCakeRepo.save(this.dryCakeRepo.create(dto as CreateCakeDto));
+      case 'cupCake':
+        return this.cupCakeRepo.save(this.cupCakeRepo.create(dto as CreateCakeDto));
       case 'donut':
         return this.donutRepo.save(this.donutRepo.create(dto as CreateDonutDto));
       case 'pastry':
@@ -27,8 +51,12 @@ export class ProductService {
 
   async findAllByType(type: string) {
     switch (type) {
-      case 'cake':
-        return this.cakeRepo.find();
+      case 'deliciousCake':
+        return this.deliciousCakeRepo.find();
+      case 'dryCake':
+        return this.dryCakeRepo.find();
+      case 'cupCake':
+        return this.cupCakeRepo.find();
       case 'donut':
         return this.donutRepo.find();
       case 'pastry':
@@ -40,11 +68,17 @@ export class ProductService {
     }
   }
 
-  async findOne(type: string, id: number) {
+  async findOne(type: string, id: string) {
     let item;
     switch (type) {
-      case 'cake':
-        item = await this.cakeRepo.findOne({ where: { id } });
+      case 'deliciousCake':
+        item = await this.deliciousCakeRepo.findOne({ where: { id } });
+        break;
+      case 'dryCake':
+        item = await this.dryCakeRepo.findOne({ where: { id } });
+        break;
+      case 'cupCake':
+        item = await this.cupCakeRepo.findOne({ where: { id } });
         break;
       case 'donut':
         item = await this.donutRepo.findOne({ where: { id } });
@@ -62,13 +96,21 @@ export class ProductService {
     return item;
   }
 
-  async update(type: string, id: number, dto: any) {
+  async update(type: string, id: string, dto: any) {
     let item;
     switch (type) {
-      case 'cake':
-        item = await this.cakeRepo.preload({ id, ...(dto as UpdateCakeDto) });
-        if (!item) throw new NotFoundException('Cake not found');
-        return this.cakeRepo.save(item);
+      case 'deliciousCake':
+        item = await this.deliciousCakeRepo.preload({ id, ...(dto as UpdateCakeDto) });
+        if (!item) throw new NotFoundException('Delicious Cake not found');
+        return this.deliciousCakeRepo.save(item);
+      case 'dryCake':
+        item = await this.dryCakeRepo.preload({ id, ...(dto as UpdateCakeDto) });
+        if (!item) throw new NotFoundException('Dry Cake not found');
+        return this.dryCakeRepo.save(item);
+      case 'cupCake':
+        item = await this.cupCakeRepo.preload({ id, ...(dto as UpdateCakeDto) });
+        if (!item) throw new NotFoundException('Cup Cake not found');
+        return this.cupCakeRepo.save(item);
       case 'donut':
         item = await this.donutRepo.preload({ id, ...(dto as UpdateDonutDto) });
         if (!item) throw new NotFoundException('Donut not found');
@@ -86,14 +128,24 @@ export class ProductService {
     }
   }
 
-  async remove(type: string, id: number) {
+  async remove(type: string, id: string) {
     let item;
     switch (type) {
-      case 'cake':
-        item = await this.cakeRepo.findOne({ where: { id } });
-        if (!item) throw new NotFoundException('Cake not found');
-        await this.cakeRepo.remove(item);
-        return { message: 'Cake removed successfully' };
+      case 'deliciousCake':
+        item = await this.deliciousCakeRepo.findOne({ where: { id } });
+        if (!item) throw new NotFoundException('Delicious Cake not found');
+        await this.deliciousCakeRepo.remove(item);
+        return { message: 'Delicious Cake removed successfully' };
+      case 'dryCake':
+        item = await this.dryCakeRepo.findOne({ where: { id } });
+        if (!item) throw new NotFoundException('Dry Cake not found');
+        await this.dryCakeRepo.remove(item);
+        return { message: 'Dry Cake removed successfully' };
+      case 'cupCake':
+        item = await this.cupCakeRepo.findOne({ where: { id } });
+        if (!item) throw new NotFoundException('Cup Cake not found');
+        await this.cupCakeRepo.remove(item);
+        return { message: 'Cup Cake removed successfully' };
       case 'donut':
         item = await this.donutRepo.findOne({ where: { id } });
         if (!item) throw new NotFoundException('Donut not found');
@@ -115,14 +167,18 @@ export class ProductService {
   }
 
   async findAll() {
-    const [cakes, donuts, pastries, puddings] = await Promise.all([
-      this.cakeRepo.find(),
+    const [deliciousCakes, dryCakes, cupCakes, donuts, pastries, puddings] = await Promise.all([
+      this.deliciousCakeRepo.find(),
+      this.dryCakeRepo.find(),
+      this.cupCakeRepo.find(),
       this.donutRepo.find(),
       this.pastryRepo.find(),
       this.puddingRepo.find(),
     ]);
     return {
-      cakes,
+      deliciousCakes,
+      dryCakes,
+      cupCakes,
       donuts,
       pastries,
       puddings,
