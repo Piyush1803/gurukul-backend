@@ -1,11 +1,40 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { CreateCakeDto, CreateDonutDto, CreatePastryDto, CreatePuddingDto } from './dto/create-product.dto';
 import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto, UpdatePuddingDto } from './dto/update-product.dto';
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) { }
+  constructor(
+    private readonly productService: ProductService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) { }
+
+  @Post('upload-image')
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadImage(@UploadedFile() file: Express.Multer.File) {
+    try {
+      if (!file) {
+        throw new BadRequestException('No file uploaded');
+      }
+
+      const imageUrl = await this.cloudinaryService.uploadImage(file);
+      return { 
+        message: 'Image uploaded successfully', 
+        imageUrl,
+        success: true
+      };
+    } catch (error) {
+      console.error('Image upload error:', error);
+      return { 
+        message: 'Error uploading image', 
+        error: error.message,
+        success: false
+      };
+    }
+  }
 
   @Post(':type')
   async create(@Param('type') type: string, @Body() dto: any) {
@@ -102,4 +131,5 @@ export class ProductController {
       return { message: 'Error fetching products', error: error.message };
     }
   }
+
 }
