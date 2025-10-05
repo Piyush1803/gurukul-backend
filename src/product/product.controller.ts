@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException,
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
-import { CreateCakeDto, CreateDonutDto, CreatePastryDto, CreatePuddingDto } from './dto/create-product.dto';
-import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto, UpdatePuddingDto } from './dto/update-product.dto';
+import { CreateCakeDto, CreateDonutDto, CreatePastryDto } from './dto/create-product.dto';
+import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto } from './dto/update-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -49,11 +49,14 @@ export class ProductController {
         case 'donut':
           data = await this.productService.create(type, dto as CreateDonutDto);
           break;
-        case 'pastry':
+        case 'brownie':
           data = await this.productService.create(type, dto as CreatePastryDto);
           break;
-        case 'pudding':
-          data = await this.productService.create(type, dto as CreatePuddingDto);
+        case 'cookie':
+          data = await this.productService.create(type, dto as CreatePastryDto);
+          break;
+        case 'mousse':
+          data = await this.productService.create(type, dto as CreatePastryDto);
           break;
         default:
           throw new BadRequestException('Invalid product type');
@@ -97,11 +100,14 @@ export class ProductController {
         case 'donut':
           data = await this.productService.update(type, id, dto as UpdateDonutDto);
           break;
-        case 'pastry':
+        case 'brownie':
           data = await this.productService.update(type, id, dto as UpdatePastryDto);
           break;
-        case 'pudding':
-          data = await this.productService.update(type, id, dto as UpdatePuddingDto);
+        case 'cookie':
+          data = await this.productService.update(type, id, dto as UpdatePastryDto);
+          break;
+        case 'mousse':
+          data = await this.productService.update(type, id, dto as UpdatePastryDto);
           break;
         default:
           throw new BadRequestException('Invalid product type');

@@ -6,15 +6,16 @@ import { Donut } from './entities/donut.entity';
 import { deliciousCake } from './entities/deliciousCake.entity';
 import { dryCake } from './entities/dryCake.entity';
 import { cupCake } from './entities/cupCake.entity';
-import { Pastry } from './entities/pastry.entity';
-import { Pudding } from './entities/pudding.entity';
+import { brownie } from './entities/brownie.entity';
+import { cookie } from './entities/cookie.entity';
+import { mousse } from './entities/mousse.entity';
 import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product, Donut, deliciousCake, dryCake, cupCake, Pastry, Pudding]),
+    TypeOrmModule.forFeature([Product, Donut, deliciousCake, dryCake, cupCake, brownie, cookie, mousse]),
     MulterModule.register({
       limits: {
         fileSize: 10 * 1024 * 1024, // 10MB limit
