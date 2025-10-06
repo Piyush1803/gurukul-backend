@@ -17,6 +17,7 @@ import { mousse } from './product/entities/mousse.entity';
 import { cupCake } from './product/entities/cupCake.entity';
 import { cookie } from './product/entities/cookie.entity';
 import { deliciousCake } from './product/entities/deliciousCake.entity';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { deliciousCake } from './product/entities/deliciousCake.entity';
     ProductModule,
     CheckoutModule,
     CloudinaryModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
