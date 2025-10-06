@@ -15,8 +15,8 @@ export class Product {
     @Column()
     price: number;
 
-    @Column({ type: 'longblob', nullable: true })  // MySQL
-    image: Buffer;
+    @Column({ nullable: true })
+    imageUrl: string;
 
     @Column()
     description: string;
