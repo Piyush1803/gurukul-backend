@@ -3,9 +3,14 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  
+  // Set global prefix for all routes except root
+  app.setGlobalPrefix('api', {
+    exclude: ['/'],
+  });
     
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://192.168.0.188:5173'],
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'http://192.168.0.188:5173'],
     
     credentials: true, // optional: use if you're dealing with cookies/session
   });
