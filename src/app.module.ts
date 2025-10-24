@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { User } from './user/entities/user.entity';
 import { Product } from './product/entities/product.entity';
 import { Donut } from './product/entities/donut.entity';
@@ -16,6 +17,7 @@ import { mousse } from './product/entities/mousse.entity';
 import { cupCake } from './product/entities/cupCake.entity';
 import { cookie } from './product/entities/cookie.entity';
 import { deliciousCake } from './product/entities/deliciousCake.entity';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -28,13 +30,15 @@ import { deliciousCake } from './product/entities/deliciousCake.entity';
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
       entities: [User, Product, Donut, dryCake, brownie, mousse, cupCake, cookie, deliciousCake],
-      synchronize: false,
+      synchronize: false, // Disabled for production safety
       autoLoadEntities: true,
     }),
     UserModule,
     AuthModule,
     ProductModule,
     CheckoutModule,
+    CloudinaryModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,11 +1,56 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from './product.service';
-import { CreateCakeDto, CreateDonutDto, CreatePastryDto, CreatePuddingDto } from './dto/create-product.dto';
-import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto, UpdatePuddingDto } from './dto/update-product.dto';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { CreateCakeDto, CreateDonutDto, CreatePastryDto } from './dto/create-product.dto';
+import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto } from './dto/update-product.dto';
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) { }
+  constructor(
+    private readonly productService: ProductService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) { }
+
+  @Post('upload-image')
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadImage(@UploadedFile() file: Express.Multer.File) {
+    try {
+      if (!file) {
+        throw new BadRequestException('No file uploaded');
+      }
+
+      const imageUrl = await this.cloudinaryService.uploadImage(file);
+      return { 
+        message: 'Image uploaded successfully', 
+        imageUrl,
+        success: true
+      };
+    } catch (error) {
+      console.error('Image upload error:', error);
+      throw new BadRequestException(`Failed to upload image: ${error.message}`);
+    }
+  }
+
+  @Get("/all")
+  async findAllProducts() {
+    try {
+      const data = await this.productService.findAll();
+      return { message: 'All products fetched successfully', data };
+    } catch (error) {
+      return { message: 'Error fetching products', error: error.message };
+    }
+  }
+
+  @Get('/all/:type')
+  async findAllByType(@Param('type') type: string) {
+    try {
+      const data = await this.productService.findAllByType(type);
+      return { message: 'Products fetched successfully', data };
+    } catch (error) {
+      return { message: 'Error fetching products', error: error.message };
+    }
+  }
 
   @Post(':type')
   async create(@Param('type') type: string, @Body() dto: any) {
@@ -20,11 +65,14 @@ export class ProductController {
         case 'donut':
           data = await this.productService.create(type, dto as CreateDonutDto);
           break;
-        case 'pastry':
+        case 'brownie':
           data = await this.productService.create(type, dto as CreatePastryDto);
           break;
-        case 'pudding':
-          data = await this.productService.create(type, dto as CreatePuddingDto);
+        case 'cookie':
+          data = await this.productService.create(type, dto as CreatePastryDto);
+          break;
+        case 'mousse':
+          data = await this.productService.create(type, dto as CreatePastryDto);
           break;
         default:
           throw new BadRequestException('Invalid product type');
@@ -32,16 +80,6 @@ export class ProductController {
       return { message: 'Product created successfully', data };
     } catch (error) {
       return { message: 'Error creating product', error: error.message };
-    }
-  }
-
-  @Get('/all/:type')
-  async findAllByType(@Param('type') type: string) {
-    try {
-      const data = await this.productService.findAllByType(type);
-      return { message: 'Products fetched successfully', data };
-    } catch (error) {
-      return { message: 'Error fetching products', error: error.message };
     }
   }
 
@@ -68,11 +106,14 @@ export class ProductController {
         case 'donut':
           data = await this.productService.update(type, id, dto as UpdateDonutDto);
           break;
-        case 'pastry':
+        case 'brownie':
           data = await this.productService.update(type, id, dto as UpdatePastryDto);
           break;
-        case 'pudding':
-          data = await this.productService.update(type, id, dto as UpdatePuddingDto);
+        case 'cookie':
+          data = await this.productService.update(type, id, dto as UpdatePastryDto);
+          break;
+        case 'mousse':
+          data = await this.productService.update(type, id, dto as UpdatePastryDto);
           break;
         default:
           throw new BadRequestException('Invalid product type');
@@ -93,13 +134,4 @@ export class ProductController {
     }
   }
 
-  @Get("/all")
-  async findAllProducts() {
-    try {
-      const data = await this.productService.findAll();
-      return { message: 'All products fetched successfully', data };
-    } catch (error) {
-      return { message: 'Error fetching products', error: error.message };
-    }
-  }
 }

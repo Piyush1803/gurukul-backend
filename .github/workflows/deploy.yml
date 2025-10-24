@@ -1,0 +1,28 @@
+name: Deploy Gurukul Backend to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.GURUKUL_HOST }}
+          username: ${{ secrets.GURUKUL_USERNAME }}
+          key: ${{ secrets.GURUKUL_KEY }}
+          script: |
+            cd ${{ secrets.GURUKUL_PROJECT_PATH }}
+            git fetch origin main
+            git reset --hard origin/main
+            npm install --production
+            npm run build
+            pm2 restart gurukul-backend || pm2 start dist/main.js --name gurukul-backend

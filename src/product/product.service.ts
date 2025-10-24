@@ -6,8 +6,9 @@ import { Donut } from './entities/donut.entity';
 import { deliciousCake } from './entities/deliciousCake.entity';
 import { dryCake } from './entities/dryCake.entity';
 import { cupCake } from './entities/cupCake.entity';
-import { Pastry } from './entities/pastry.entity';
-import { Pudding } from './entities/pudding.entity';
+import { brownie } from './entities/brownie.entity';
+import { cookie } from './entities/cookie.entity';
+import { mousse } from './entities/mousse.entity';
 import { CreateCakeDto, CreateDonutDto, CreatePastryDto, CreatePuddingDto } from './dto/create-product.dto';
 import { UpdateCakeDto, UpdateDonutDto, UpdatePastryDto, UpdatePuddingDto } from './dto/update-product.dto';
 
@@ -24,10 +25,12 @@ export class ProductService {
     private dryCakeRepo: Repository<dryCake>,
     @InjectRepository(cupCake)
     private cupCakeRepo: Repository<cupCake>,
-    @InjectRepository(Pastry)
-    private pastryRepo: Repository<Pastry>,
-    @InjectRepository(Pudding)
-    private puddingRepo: Repository<Pudding>,
+    @InjectRepository(brownie)
+    private brownieRepo: Repository<brownie>,
+    @InjectRepository(cookie)
+    private cookieRepo: Repository<cookie>,
+    @InjectRepository(mousse)
+    private mousseRepo: Repository<mousse>,
   ) { }
 
   async create(type: string, dto: any) {
@@ -40,10 +43,12 @@ export class ProductService {
         return this.cupCakeRepo.save(this.cupCakeRepo.create(dto as CreateCakeDto));
       case 'donut':
         return this.donutRepo.save(this.donutRepo.create(dto as CreateDonutDto));
-      case 'pastry':
-        return this.pastryRepo.save(this.pastryRepo.create(dto as CreatePastryDto));
-      case 'pudding':
-        return this.puddingRepo.save(this.puddingRepo.create(dto as CreatePuddingDto));
+      case 'brownie':
+        return this.brownieRepo.save(this.brownieRepo.create(dto as CreatePastryDto));
+      case 'cookie':
+        return this.cookieRepo.save(this.cookieRepo.create(dto as CreatePastryDto));
+      case 'mousse':
+        return this.mousseRepo.save(this.mousseRepo.create(dto as CreatePastryDto));
       default:
         throw new BadRequestException('Invalid product type');
     }
@@ -59,10 +64,12 @@ export class ProductService {
         return this.cupCakeRepo.find();
       case 'donut':
         return this.donutRepo.find();
-      case 'pastry':
-        return this.pastryRepo.find();
-      case 'pudding':
-        return this.puddingRepo.find();
+      case 'brownie':
+        return this.brownieRepo.find();
+      case 'cookie':
+        return this.cookieRepo.find();
+      case 'mousse':
+        return this.mousseRepo.find();
       default:
         throw new BadRequestException('Invalid product type');
     }
@@ -83,11 +90,14 @@ export class ProductService {
       case 'donut':
         item = await this.donutRepo.findOne({ where: { id } });
         break;
-      case 'pastry':
-        item = await this.pastryRepo.findOne({ where: { id } });
+      case 'brownie':
+        item = await this.brownieRepo.findOne({ where: { id } });
         break;
-      case 'pudding':
-        item = await this.puddingRepo.findOne({ where: { id } });
+      case 'cookie':
+        item = await this.cookieRepo.findOne({ where: { id } });
+        break;
+      case 'mousse':
+        item = await this.mousseRepo.findOne({ where: { id } });
         break;
       default:
         throw new BadRequestException('Invalid product type');
@@ -115,14 +125,18 @@ export class ProductService {
         item = await this.donutRepo.preload({ id, ...(dto as UpdateDonutDto) });
         if (!item) throw new NotFoundException('Donut not found');
         return this.donutRepo.save(item);
-      case 'pastry':
-        item = await this.pastryRepo.preload({ id, ...(dto as UpdatePastryDto) });
-        if (!item) throw new NotFoundException('Pastry not found');
-        return this.pastryRepo.save(item);
-      case 'pudding':
-        item = await this.puddingRepo.preload({ id, ...(dto as UpdatePuddingDto) });
-        if (!item) throw new NotFoundException('Pudding not found');
-        return this.puddingRepo.save(item);
+      case 'brownie':
+        item = await this.brownieRepo.preload({ id, ...(dto as UpdatePastryDto) });
+        if (!item) throw new NotFoundException('Brownie not found');
+        return this.brownieRepo.save(item);
+      case 'cookie':
+        item = await this.cookieRepo.preload({ id, ...(dto as UpdatePastryDto) });
+        if (!item) throw new NotFoundException('Cookie not found');
+        return this.cookieRepo.save(item);
+      case 'mousse':
+        item = await this.mousseRepo.preload({ id, ...(dto as UpdatePastryDto) });
+        if (!item) throw new NotFoundException('Mousse not found');
+        return this.mousseRepo.save(item);
       default:
         throw new BadRequestException('Invalid product type');
     }
@@ -151,37 +165,44 @@ export class ProductService {
         if (!item) throw new NotFoundException('Donut not found');
         await this.donutRepo.remove(item);
         return { message: 'Donut removed successfully' };
-      case 'pastry':
-        item = await this.pastryRepo.findOne({ where: { id } });
-        if (!item) throw new NotFoundException('Pastry not found');
-        await this.pastryRepo.remove(item);
-        return { message: 'Pastry removed successfully' };
-      case 'pudding':
-        item = await this.puddingRepo.findOne({ where: { id } });
-        if (!item) throw new NotFoundException('Pudding not found');
-        await this.puddingRepo.remove(item);
-        return { message: 'Pudding removed successfully' };
+      case 'brownie':
+        item = await this.brownieRepo.findOne({ where: { id } });
+        if (!item) throw new NotFoundException('Brownie not found');
+        await this.brownieRepo.remove(item);
+        return { message: 'Brownie removed successfully' };
+      case 'cookie':
+        item = await this.cookieRepo.findOne({ where: { id } });
+        if (!item) throw new NotFoundException('Cookie not found');
+        await this.cookieRepo.remove(item);
+        return { message: 'Cookie removed successfully' };
+      case 'mousse':
+        item = await this.mousseRepo.findOne({ where: { id } });
+        if (!item) throw new NotFoundException('Mousse not found');
+        await this.mousseRepo.remove(item);
+        return { message: 'Mousse removed successfully' };
       default:
         throw new BadRequestException('Invalid product type');
     }
   }
 
   async findAll() {
-    const [deliciousCakes, dryCakes, cupCakes, donuts, pastries, puddings] = await Promise.all([
+    const [deliciousCakes, dryCakes, cupCakes, donuts, brownies, cookies, mousses] = await Promise.all([
       this.deliciousCakeRepo.find(),
       this.dryCakeRepo.find(),
       this.cupCakeRepo.find(),
       this.donutRepo.find(),
-      this.pastryRepo.find(),
-      this.puddingRepo.find(),
+      this.brownieRepo.find(),
+      this.cookieRepo.find(),
+      this.mousseRepo.find(),
     ]);
     return {
       deliciousCakes,
       dryCakes,
       cupCakes,
       donuts,
-      pastries,
-      puddings,
+      brownies,
+      cookies,
+      mousses,
     };
   }
 
