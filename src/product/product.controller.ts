@@ -28,11 +28,27 @@ export class ProductController {
       };
     } catch (error) {
       console.error('Image upload error:', error);
-      return { 
-        message: 'Error uploading image', 
-        error: error.message,
-        success: false
-      };
+      throw new BadRequestException(`Failed to upload image: ${error.message}`);
+    }
+  }
+
+  @Get("/all")
+  async findAllProducts() {
+    try {
+      const data = await this.productService.findAll();
+      return { message: 'All products fetched successfully', data };
+    } catch (error) {
+      return { message: 'Error fetching products', error: error.message };
+    }
+  }
+
+  @Get('/all/:type')
+  async findAllByType(@Param('type') type: string) {
+    try {
+      const data = await this.productService.findAllByType(type);
+      return { message: 'Products fetched successfully', data };
+    } catch (error) {
+      return { message: 'Error fetching products', error: error.message };
     }
   }
 
@@ -64,16 +80,6 @@ export class ProductController {
       return { message: 'Product created successfully', data };
     } catch (error) {
       return { message: 'Error creating product', error: error.message };
-    }
-  }
-
-  @Get('/all/:type')
-  async findAllByType(@Param('type') type: string) {
-    try {
-      const data = await this.productService.findAllByType(type);
-      return { message: 'Products fetched successfully', data };
-    } catch (error) {
-      return { message: 'Error fetching products', error: error.message };
     }
   }
 
@@ -125,16 +131,6 @@ export class ProductController {
       return { message: 'Product deleted successfully', data };
     } catch (error) {
       return { message: 'Error deleting product', error: error.message };
-    }
-  }
-
-  @Get("/all")
-  async findAllProducts() {
-    try {
-      const data = await this.productService.findAll();
-      return { message: 'All products fetched successfully', data };
-    } catch (error) {
-      return { message: 'Error fetching products', error: error.message };
     }
   }
 
